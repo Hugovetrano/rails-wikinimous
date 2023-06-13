@@ -1,0 +1,11 @@
+<%= form_with model: @article do |f| %>
+  <%= f.label :title %>
+  <%= f.text_field :title %>
+  <%= f.label :content %>
+  <%= f.text_field :content %>
+  <%= f.submit %>
+<% end %>
+
+<%= link_to articles_path do %>
+  <i class="fa-solid fa-arrow-rotate-left"></i> Back to list
+<% end %>
