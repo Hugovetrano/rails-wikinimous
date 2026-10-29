@@ -1,0 +1,13 @@
+<% content_for :title, "Notre carte · Connexion" %>
+<main class="login">
+  <%= form_with url: login_path, method: :post, class: "login__card" do |f| %>
+    <div class="login__globe">🌍</div>
+    <h1>Notre carte</h1>
+    <p>Tous les endroits où on est allés, ensemble.</p>
+    <% if flash[:alert] %>
+      <p class="login__error"><%= flash[:alert] %></p>
+    <% end %>
+    <%= f.password_field :password, placeholder: "Mot de passe", autofocus: true, autocomplete: "current-password", class: "input" %>
+    <%= f.button "Entrer", class: "btn btn--primary" %>
+  <% end %>
+</main>

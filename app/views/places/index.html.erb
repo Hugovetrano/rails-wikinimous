@@ -1,0 +1,79 @@
+<% content_for :title, "Notre carte" %>
+<div class="app"
+     data-controller="map"
+     data-map-places-value="<%= @places.to_json %>"
+     data-map-kinds-value="<%= Place::KINDS.to_json %>">
+
+  <div class="map" data-map-target="canvas"></div>
+
+  <button class="panel-toggle" type="button" data-action="map#togglePanel" aria-label="Afficher la liste">
+    <span data-map-target="toggleIcon">☰</span>
+  </button>
+
+  <aside class="panel" data-map-target="panel">
+    <header class="panel__header">
+      <h1>Notre carte <span>🌍</span></h1>
+      <p class="panel__stats" data-map-target="stats">
+        <%= pluralize(@places.size, "lieu", "lieux") %> · <%= pluralize(@countries.size, "pays", "pays") %>
+      </p>
+    </header>
+
+    <div class="search">
+      <input type="search" class="input" placeholder="Chercher une ville, un lieu…"
+             data-map-target="search" data-action="input->map#search keydown.enter->map#searchSubmit" autocomplete="off">
+      <ul class="search__results" data-map-target="searchResults" hidden></ul>
+    </div>
+
+    <p class="panel__hint">Clique n'importe où sur la carte pour planter un pin 📍</p>
+
+    <ul class="places" data-map-target="list"></ul>
+
+    <footer class="panel__footer">
+      <%= button_to "Se déconnecter", logout_path, method: :delete, class: "link" %>
+    </footer>
+  </aside>
+
+  <div class="drawer" data-map-target="drawer" hidden>
+    <form data-map-target="form" data-action="submit->map#save">
+      <header class="drawer__header">
+        <h2 data-map-target="formTitle">Nouveau lieu</h2>
+        <button type="button" class="icon-btn" data-action="map#closeForm" aria-label="Fermer">✕</button>
+      </header>
+
+      <input type="hidden" name="id">
+      <input type="hidden" name="latitude">
+      <input type="hidden" name="longitude">
+      <input type="hidden" name="country">
+      <input type="hidden" name="city">
+
+      <label class="field">
+        <span>Nom</span>
+        <input type="text" name="name" class="input" required placeholder="Ex. Lisbonne, le petit resto du port…">
+      </label>
+
+      <div class="field">
+        <span>Type</span>
+        <div class="kinds" data-map-target="kinds"></div>
+        <input type="hidden" name="kind" value="other">
+      </div>
+
+      <label class="field">
+        <span>Date</span>
+        <input type="date" name="visited_on" class="input">
+      </label>
+
+      <label class="field">
+        <span>Un souvenir, une note…</span>
+        <textarea name="note" class="input" rows="4" placeholder="Ce qu'on a adoré, ce qu'on y a mangé, l'anecdote à retenir…"></textarea>
+      </label>
+
+      <p class="drawer__coords" data-map-target="coords"></p>
+      <p class="drawer__error" data-map-target="formError" hidden></p>
+
+      <footer class="drawer__actions">
+        <button type="button" class="btn btn--danger" data-map-target="deleteBtn" data-action="map#destroy" hidden>Supprimer</button>
+        <button type="submit" class="btn btn--primary" data-map-target="saveBtn">Enregistrer</button>
+      </footer>
+    </form>
+  </div>
+</div>

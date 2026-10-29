@@ -1,7 +1,10 @@
 Rails.application.routes.draw do
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
+  root "places#index"
+  resources :places, only: %i[create update destroy]
 
-  # Defines the root path route ("/")
-  # root "articles#index"
-  resources :articles
+  get    "login",  to: "sessions#new"
+  post   "login",  to: "sessions#create"
+  delete "logout", to: "sessions#destroy"
+
+  get "up" => "rails/health#show", as: :rails_health_check
 end
